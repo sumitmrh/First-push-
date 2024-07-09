@@ -1,0 +1,33 @@
+version: '3.8'
+
+services:
+
+  sonarqube:
+    image: sonarqube:lts-community
+    container_name: sonarqube
+    environment:
+      - sonar.jdbc.username=sumit
+      - sonar.jdbc.password=sumit
+      - sonar.jdbc.url=jdbc:postgresql://sonar_db:5432/sonar
+    ports:
+      - "9000:9000"
+    depends_on:
+      - sonar_db
+
+  sonar_db:
+    image: postgres:13
+    container_name: sonar_db
+    environment:
+      - POSTGRES_USER=sumit
+      - POSTGRES_PASSWORD=sumit
+      - POSTGRES_DB=sonar
+
+volumes:
+  sonarqube_data:
+    driver: local
+  sonarqube_logs:
+    driver: local
+  sonarqube_extensions:
+    driver: local
+  sonar_db:
+    driver: local
